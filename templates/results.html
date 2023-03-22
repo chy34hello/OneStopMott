@@ -21,16 +21,17 @@
         }
 
         h1 {
-            font-weight: 500;
-            margin-bottom: 30px;
+            font-weight: 400;
+            margin-bottom: 20px;
+            font-size: 30px;
         }
 
         a.home-link {
             float: right;
-            margin-top: -60px;
+            margin-top: -40px;
             margin-right: 15px;
             text-decoration: none;
-            color: #007bff;
+            color: #007185;
         }
 
         a.home-link:hover {
@@ -45,34 +46,37 @@
         }
 
         thead {
-            background-color: #007bff;
+            background-color: #232f3e;
             color: #fff;
         }
 
         th, td {
-            padding: 15px;
+            padding: 10px;
             text-align: left;
             border-top: 1px solid #dee2e6;
+            font-size: 15px;
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f1f1f1;
+            background-color: #fff;
         }
 
         tbody tr:hover {
-            background-color: #e0e0e0;
+            background-color: #f2f2f2;
         }
 
         .pagination {
             display: flex;
             justify-content: flex-end;
             margin-bottom: 15px;
+            padding-top: 20px;
         }
 
         .pagination a, .pagination span {
             margin-right: 10px;
             text-decoration: none;
-            color: #007bff;
+            color: #007185;
+            font-size: 15px;
         }
 
         .pagination a:hover {
@@ -82,12 +86,25 @@
         .page-item.disabled .page-link {
             color: #6c757d;
         }
+
+        .home-link {
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            50% {
+                opacity: 0;
+            }
+        }
+
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Search Results</h1>
-        <a href="/" class="home-link">Home</a>
+        <div class="header">
+            <h1>MOTT test results</h1>
+        </div>
+  
+        <a href="/" class="home-link">Go Home Page</a>
         <div class="pagination">
             <span>Records per page:</span>
             {% for option in [10, 50, 100] %}

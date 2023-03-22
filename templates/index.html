@@ -5,13 +5,100 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Show Records</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background-color: #232F3E;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 48px;
+            margin-bottom: 40px;
+        }
+
+        .search-forms {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .search-form {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .search-form label {
+            display: block;
+            font-size: 18px;
+            margin-bottom: 10px;
+        }
+
+        .search-form input,
+        .search-form select {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 4px;
+            border: 1px solid #aaa;
+            background-color: #fff;
+            color: #333;
+        }
+
+        .search-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 4px;
+            border: none;
+            background-color: #F9A41A;
+            color: #232F3E;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+
+        .search-form button:hover {
+            background-color: #E69500;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1 class="mt-5">Show Records</h1>
-        <form action="/search" method="POST">
-            <button type="submit" class="btn btn-primary">Show All Records</button>
-        </form>
+        <h1>FireTV Video Automation TMT</h1>
+        <div class="search-forms">
+            <div class="search-form">
+                <form action="/search" method="POST">
+                    <label>Show All Records</label>
+                    <button type="submit">Show All</button>
+                </form>
+            </div>
+            <div class="search-form">
+                <form action="/search_by_date" method="POST">
+                    <label>Search by Date</label>
+                    <select name="date" id="date">
+                        {% for date in dates %}
+                            <option value="{{ date }}">{{ date }}</option>
+                        {% endfor %}
+                    </select>
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+            <div class="search-form">
+                <form action="/search_by_keyword" method="POST">
+                    <label>Search by Keyword</label>
+                    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>

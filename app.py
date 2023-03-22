@@ -16,7 +16,27 @@ mysql.init_app(app)
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    conn = mysql.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT DISTINCT date FROM testHistory")
+    dates = [record[0] for record in cur.fetchall()]
+    cur.close()
+    return render_template('index.html', dates=dates)
+
+@app.route('/search_by_date', methods=['POST'])
+def search_by_date():
+    try:
+        selected_date = request.form['date']
+        conn = mysql.connect()
+        cur = conn.cursor()
+        query = "SELECT videoTitle, utterance, result, testingNote, date FROM testHistory WHERE date = %s"
+        cur.execute(query, (selected_date,))
+        results = cur.fetchall()
+        cur.close()
+        return render_template('results.html', results=results, total_pages=1, current_page=1, per_page=len(results))
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return f"An error occurred: {e}", 500
 
 @app.route('/search', methods=['POST', 'GET'])
 def search():
@@ -42,7 +62,20 @@ def search():
         print(f"Error: {e}", file=sys.stderr)
         return f"An error occurred: {e}", 500
 
-
+@app.route('/search_by_keyword', methods=['POST'])
+def search_by_keyword():
+    try:
+        keyword = request.form['keyword']
+        conn = mysql.connect()
+        cur = conn.cursor()
+        query = "SELECT videoTitle, utterance, result, testingNote, date FROM testHistory WHERE LOWER(videoTitle) LIKE %s"
+        cur.execute(query, (f'%{keyword.lower()}%',))
+        results = cur.fetchall()
+        cur.close()
+        return render_template('results.html', results=results, total_pages=1, current_page=1, per_page=len(results))
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return f"An error occurred: {e}", 500
 
 if __name__ == '__main__':
     app.run(debug=True)
