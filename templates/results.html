@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme = "dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,100 +8,154 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-QyN5+5Ko4Pv4x4lm/57Z38KFFTD/lu6fHUS8hJlDmEnCmRlHkUvJ8Wn3qKZ/f6UdK9+oN59DvMc1Ymm3gJ3Mw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
     <style>
-        body {
-            font-family: 'Roboto', sans-serif;
-            background-color: #f8f9fa;
-        }
+ :root {
+  --main-bg-color: #f8f9fa;
+  --main-text-color: #212529;
+  --header-bg-color: #232f3e;
+  --header-text-color: #fff;
+  --table-row-hover-bg-color: #f2f2f2;
+  --table-row-even-bg-color: #fff;
+  --table-row-odd-bg-color: #f8f9fa;
+  --table-row-text-color: #333333;
+}
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 50px 15px;
-        }
+[data-theme="dark"] {
+  --main-bg-color: #232f3e;
+  --main-text-color: #fff;
+  --header-bg-color: #303030;
+  --header-text-color: #f8f9fa;
+  --table-row-hover-bg-color: #3c3c3c;
+  --table-row-even-bg-color: #3c3c3c;
+  --table-row-odd-bg-color: #232f3e;
+  --table-row-text-color: #007185;
+}
 
-        h1 {
-            font-weight: 400;
-            margin-bottom: 20px;
-            font-size: 30px;
-        }
+[data-theme="dark"] #theme-switcher i {
+  transform: rotate(180deg);
+}
 
-        a.home-link {
-            float: right;
-            margin-top: -40px;
-            margin-right: 15px;
-            text-decoration: none;
-            color: #007185;
-        }
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
 
-        a.home-link:hover {
-            text-decoration: underline;
-        }
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 15px;
+}
 
-        table {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-            border-collapse: separate;
-            border-spacing: 0;
-            width: 100%;
-        }
+h1 {
+  font-weight: 400;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
 
-        thead {
-            background-color: #232f3e;
-            color: #fff;
-        }
+a.home-link {
+  float: right;
+  margin-top: -40px;
+  margin-right: 15px;
+  text-decoration: none;
+  color: #007185;
+}
 
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-top: 1px solid #dee2e6;
-            font-size: 15px;
-        }
+a.home-link:hover {
+  text-decoration: underline;
+}
 
-        tbody tr:nth-child(even) {
-            background-color: #fff;
-        }
+table {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
 
-        tbody tr:hover {
-            background-color: #f2f2f2;
-        }
+thead {
+  background-color: #232f3e;
+  color: #fff;
+}
 
-        .pagination {
-            display: flex;
-            justify-content: flex-end;
-            margin-bottom: 15px;
-            padding-top: 20px;
-        }
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-top: 1px solid #dee2e6;
+  font-size: 15px;
+}
 
-        .pagination a, .pagination span {
-            margin-right: 10px;
-            text-decoration: none;
-            color: #007185;
-            font-size: 15px;
-        }
+tbody tr:nth-child(even) {
+    background-color: var(--main-bg-color);
+}
 
-        .pagination a:hover {
-            text-decoration: underline;
-        }
+tbody tr:nth-child(odd) {
+  background-color: var(--table-row-odd-bg-color);
+}
 
-        .page-item.disabled .page-link {
-            color: #6c757d;
-        }
+tbody tr:hover {
+    background-color: var(--table-row-hover-bg-color);
 
-        .home-link {
-            animation: blink 1s infinite;
-        }
-        @keyframes blink {
-            50% {
-                opacity: 0;
-            }
-        }
+}
+
+tbody tr td {
+  color: var(--table-row-text-color);
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  padding-top: 20px;
+}
+
+.pagination a,
+.pagination span {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #007185;
+  font-size: 15px;
+}
+
+.pagination a:hover {
+  text-decoration: underline;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+}
+
+.home-link {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
 
     </style>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const themeSwitcher = document.getElementById('theme-switcher');
+            themeSwitcher.addEventListener('click', function () {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', newTheme);
+                themeSwitcher.innerText = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
+            });
+        });
+    </script>
+
 </head>
 <body>
     <div class="container">
         <div class="header">
             <h1>MOTT test results</h1>
+            <button id="theme-switcher" style="position: absolute; top: 50px; right: 15px; background: none; border: none; color: inherit; font-family: inherit; font-size: 16px; cursor: pointer;"><i class="fas fa-moon"></i> Light mode</button>
         </div>
   
         <a href="/" class="home-link">Go Home Page</a>

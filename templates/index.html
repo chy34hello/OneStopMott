@@ -25,7 +25,8 @@
 
         .search-forms {
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
+            align-items: flex-start;
             flex-wrap: wrap;
             gap: 20px;
         }
@@ -33,6 +34,10 @@
         .search-form {
             flex: 1;
             min-width: 250px;
+            padding: 15px;
+            background-color: #2E3D55;
+            border-radius: 10px;
+            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
         }
 
         .search-form label {
@@ -72,33 +77,42 @@
 </head>
 <body>
     <div class="container">
-        <h1>FireTV Video Automation TMT</h1>
+        <h1>FireTV Video Automation OneStop</h1>
         <div class="search-forms">
             <div class="search-form">
                 <form action="/search" method="POST">
                     <label>Show All Records</label>
-                    <button type="submit">Show All</button>
+                    <button type="submit">Show All Test Results</button>
                 </form>
             </div>
             <div class="search-form">
                 <form action="/search_by_date" method="POST">
-                    <label>Search by Date</label>
-                    <select name="date" id="date">
-                        {% for date in dates %}
-                            <option value="{{ date }}">{{ date }}</option>
-                        {% endfor %}
-                    </select>
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-            <div class="search-form">
-                <form action="/search_by_keyword" method="POST">
-                    <label>Search by Keyword</label>
-                    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
-                    <button type="submit">Search</button>
-                </form>
+                    <div style="display: flex; flex-direction: column;">
+                        <label for="date">Search by Date</label>
+                        <select name="date" id="date">
+                            {% for date in dates %}
+                                <option value="{{ date }}">{{ date }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div style="display: flex; align-items: center; margin-top: 10px;">
+                        <label style="font-size: 14px; margin-right: 5px;">
+                            <input type="checkbox" id="failed_test_cases" name="failed_test_cases" value="1">
+                            Failed Test Cases
+                        </label>
+                    </div>
+                    <button type="submit" style="margin-top: 10px;">
+                        Search</button>
+                    </form>
+                </div>
+                <div class="search-form">
+                    <form action="/search_by_keyword" method="POST">
+                        <label>Search by Title Keyword</label>
+                        <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
             </div>
         </div>
-    </div>
-</body>
-</html>
+    </body>
+    </html>
