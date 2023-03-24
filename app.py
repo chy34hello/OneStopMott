@@ -1,7 +1,10 @@
 import math
+import os
 import sys
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, send_from_directory, request, redirect, url_for, make_response, session
+import subprocess
 from flaskext.mysql import MySQL
+import requests
 
 app = Flask(__name__)
 app.secret_key = 'MottInProgress'
@@ -112,6 +115,53 @@ def search_by_keyword():
         print(f"Error: {e}", file=sys.stderr)
         return f"An error occurred: {e}", 500
 
+@app.route('/source_file_center')
+def source_file_center():
+    files = os.listdir('source/PrimeSourceFile')
+    sorted_files = sorted(files)
+    return render_template('source_file_center.html', files=sorted_files)
+
+@app.route('/download_file/<filename>')
+def download_file(filename):
+    source_files_path = 'source/PrimeSourceFile'
+    return send_from_directory(source_files_path, filename, as_attachment=True)
+
+@app.route('/generate_test_data/<filename>')
+def generate_test_data(filename):
+    try:
+        source_files_path = 'source/PrimeSourceFile'
+        return send_from_directory(source_files_path, filename, as_attachment=True)
+    except Exception as e:
+        return str(e)
+    
+@app.route('/generate_delta/<filename>')
+def generate_delta(filename):
+    try:
+        source_files_path = 'source/PrimeSourceFile'
+        return send_from_directory(source_files_path, filename, as_attachment=True)
+    except Exception as e:
+        return str(e)
+    
+
+@app.route('/download_netflix_catalog', methods=['POST'])
+def download_netflix_catalog():
+    country_code = request.form.get('country_code').upper()
+    language = request.form['language'].lower()
+    if not country_code:
+        return "Country code is required", 400
+    if not language:
+        return "language code is required", 400
+
+    url = f"http://api.netflix.com/catalog/feeds/{language}_{country_code}.xml?oauth_consumer_key=amazon"
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        output = make_response(response.content)
+        output.headers["Content-Disposition"] = f"attachment; filename=netflix_catalog_{language}_{country_code}.xml"
+        output.headers["Content-Type"] = "application/xml"
+        return output
+    else:
+        return "Error downloading file", 500
 
 if __name__ == '__main__':
     app.run(debug=True)

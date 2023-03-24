@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -73,8 +74,43 @@
         .search-form button:hover {
             background-color: #E69500;
         }
+
+        .footer {
+            background-color: var(--header-bg-color);
+            padding: 20px 0;
+            position: relative;
+            bottom: 0;
+            width: 100%;
+        }
+
+        .footer a {
+            color: var(--header-text-color);
+            text-decoration: none;
+            margin-right: 15px;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        .footer p {
+            color: var(--header-text-color);
+        }
+
+        .source-file-center-container {
+            padding: 30px 0;
+            border-top: 2px solid #ccc;
+            border-bottom: 2px solid #ccc;
+            margin: 30px 0;
+        }
+        .source-file-center {
+            font-size: 14px;
+            margin-left: 20px;
+        }
+
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>FireTV Video Automation OneStop</h1>
@@ -91,7 +127,7 @@
                         <label for="date">Search by Date</label>
                         <select name="date" id="date">
                             {% for date in dates %}
-                                <option value="{{ date }}">{{ date }}</option>
+                            <option value="{{ date }}">{{ date }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -103,16 +139,32 @@
                     </div>
                     <button type="submit" style="margin-top: 10px;">
                         Search</button>
-                    </form>
-                </div>
-                <div class="search-form">
-                    <form action="/search_by_keyword" method="POST">
-                        <label>Search by Title Keyword</label>
-                        <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
-                        <button type="submit">Search</button>
-                    </form>
-                </div>
+                </form>
             </div>
+            <div class="search-form">
+                <form action="/search_by_keyword" method="POST">
+                    <label>Search by Title Keyword</label>
+                    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
+                    <button type="submit">Search</button>
+                </form>
+            </div>
+
         </div>
-    </body>
-    </html>
+    </div>
+    <hr class="hr-divider">
+    <footer class="footer">
+        <div class="container">
+            <p>
+                <a href="https://code.amazon.com/packages/AiqMottMatrix/trees/mainline">MOTT repository</a>
+                <a href="https://code.amazon.com/packages/AiqMottUtils/trees/mainline">MOTT utility repository</a>
+                <span class="source-file-center">
+                    <form action="/source_file_center" method="GET" style="display: inline;">
+                        <button type="submit" class="btn btn-link p-0">Source File Center</button>
+                    </form>
+                </span>
+            </p>
+        </div>
+    </footer>
+</body>
+
+</html>

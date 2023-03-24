@@ -1,0 +1,112 @@
+/* Common styles */
+
+body {
+    background-color: #232F3E;
+    font-family: Arial, sans-serif;
+    color: #fff;
+}
+
+.container {
+    max-width: 800px;
+    margin: 50px auto;
+    text-align: left;
+}
+
+h1 {
+    font-size: 48px;
+    margin-bottom: 40px;
+}
+
+.btn-primary {
+    background-color: #F9A41A;
+    border: none;
+}
+
+.btn-primary:hover {
+    background-color: #E69500;
+}
+
+/* Source File Center page styles */
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #fff;
+    padding: 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #2E3D55;
+}
+
+/* Spinner styles */
+
+.spinner-container {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+}
+
+.spinner {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border: 6px solid #f3f3f3;
+    border-top: 6px solid #3498db;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* Home page styles */
+
+.jumbotron {
+    background-color: #232F3E;
+    padding: 2rem 1rem;
+}
+
+.logo {
+    max-width: 300px;
+    display: block;
+    margin: 0 auto 30px;
+}
+
+/* Generate Test Data page styles */
+
+.generate-container {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.generate-form label,
+.generate-form input[type="text"],
+.generate-form button[type="submit"] {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.generate-form input[type="text"],
+.generate-form button[type="submit"] {
+    width: 100%;
+}
