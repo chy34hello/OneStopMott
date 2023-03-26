@@ -30,7 +30,7 @@
   --table-row-hover-bg-color: #3c3c3c;
   --table-row-even-bg-color: #3c3c3c;
   --table-row-odd-bg-color: #232f3e;
-  --table-row-text-color: #007185;
+  --table-row-text-color: #ffffff;
 }
 
 [data-theme="dark"] #theme-switcher i {
@@ -42,6 +42,24 @@ body {
   background-color: var(--main-bg-color);
   color: var(--main-text-color);
 }
+
+@keyframes colorChase {
+    0% {
+      color: #f00;
+    }
+    25% {
+      color: #0f0;
+    }
+    50% {
+      color: #00f;
+    }
+    75% {
+      color: #f0f;
+    }
+    100% {
+      color: #f00;
+    }
+  }
 
 .container {
   max-width: 1200px;
@@ -86,6 +104,19 @@ td {
   border-top: 1px solid #dee2e6;
   font-size: 15px;
 }
+
+.theme-switcher {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    animation: colorChase 4s infinite;
+  }
 
 tbody tr:nth-child(even) {
     background-color: var(--main-bg-color);
@@ -139,14 +170,27 @@ tbody tr td {
 
     </style>
     <script>
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
         document.addEventListener('DOMContentLoaded', function () {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) {
+                setTheme(storedTheme);
+            } else {
+                setTheme('dark');
+            }
+
             const themeSwitcher = document.getElementById('theme-switcher');
-            themeSwitcher.addEventListener('click', function () {
-                const currentTheme = document.documentElement.getAttribute('data-theme');
-                const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-                document.documentElement.setAttribute('data-theme', newTheme);
-                themeSwitcher.innerText = newTheme === 'dark' ? 'Light mode' : 'Dark mode';
-            });
+            themeSwitcher.addEventListener('click', toggleTheme);
         });
     </script>
 
@@ -155,7 +199,7 @@ tbody tr td {
     <div class="container">
         <div class="header">
             <h1>MOTT test results</h1>
-            <button id="theme-switcher" style="position: absolute; top: 50px; right: 15px; background: none; border: none; color: inherit; font-family: inherit; font-size: 16px; cursor: pointer;"><i class="fas fa-moon"></i> Light mode</button>
+            <button id="theme-switcher" class="theme-switcher"><i class="fas fa-moon"></i> Toggle theme</button>
         </div>
   
         <a href="/" class="home-link">Go Home Page</a>
@@ -220,5 +264,7 @@ tbody tr td {
             </ul>
         </nav>
     </div>
+
+    <script src="theme.js"></script>
 </body>
 </html>

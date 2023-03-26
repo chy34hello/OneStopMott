@@ -1,0 +1,5 @@
+{
+    "python.analysis.extraPaths": [
+        "\"/Users/chenhyhy/Desktop/local_project/Frontend_view_of_Mott results/myenv/bin/python3.9/site-packages\""
+    ]
+}

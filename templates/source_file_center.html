@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Source File Center</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="/static/js/scripts.js" defer></script>
     <style>
         body {
             background-color: #232F3E;
@@ -161,6 +162,14 @@
             <button type="submit">Download Netflix Catalog</button>
         </form>
     </div>
+
+    <form method="POST" action="{{ url_for('download_netflix_top_titles') }}">
+        <label for="country_code_top_titles">Country Code:</label>
+        <input type="text" id="country_code_top_titles" name="country_code" placeholder="Please type in country code" required>
+        <button type="submit">Download Netflix Exclusive Top Titles</button>
+    </form>
+    
+
     <div class="container">
         <a href="/" class="btn btn-primary" style="margin-top: 20px;">Go Back</a>
     </div>

@@ -103,17 +103,38 @@
             border-bottom: 2px solid #ccc;
             margin: 30px 0;
         }
+
         .source-file-center {
             font-size: 14px;
             margin-left: 20px;
         }
 
+        .table-bordered {
+            border-collapse: collapse;
+        }
+
+        .table-bordered th,
+        .table-bordered td {
+            border: 1px solid #dee2e6;
+            padding: 10px;
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
         <h1>FireTV Video Automation OneStop</h1>
+        <div>
+            <label for="region-select">Select Region:</label>
+            <select name="region" id="region-select">
+                <option value="ANZ">ANZ</option>
+                <option value="India">India</option>
+                <option value="Arab">Arab</option>
+            </select>
+        </div>
+        <hr style="border-color: white;">
+        <hr style="border-color: white;">
+
         <div class="search-forms">
             <div class="search-form">
                 <form action="/search" method="POST">
@@ -151,7 +172,54 @@
 
         </div>
     </div>
-    <hr class="hr-divider">
+
+    <div class="container">
+        <h1>Save a note</h1>
+        <form action="{{ url_for('save_note') }}" method="POST">
+            <label for="content">Note content:</label>
+            <input type="text" name="content" id="content" required>
+            <br>
+            <input type="submit" value="Save Note">
+        </form>
+        <hr style="border-color: white;">
+        <hr style="border-color: white;">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Timestamp</th>
+                    <th>Content</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for note in notes %}
+                <tr>
+                    <td>{{ note[0] }}</td>
+                    <td>{{ note[1] }}</td>
+                    <td>{{ note[2] }}</td>
+                    <td>{{ note[3] }}</td>
+                    <td>
+                        {% if note[3] == 'unread' %}
+                        <form action="{{ url_for('mark_as_read', note_id=note[0]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">Read</button>
+                        </form>
+                        {% else %}
+                        <button type="button" class="btn btn-primary" disabled>Read</button>
+                        {% endif %}
+                        <form action="{{ url_for('delete_note', note_id=note[0]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+    <hr style="border-color: white;">
     <footer class="footer">
         <div class="container">
             <p>
