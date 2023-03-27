@@ -133,7 +133,7 @@
             </select>
         </div>
         <hr style="border-color: white;">
-        <hr style="border-color: white;">
+        <hr style="border-color: white;" class = "form-group mb-5">
 
         <div class="search-forms">
             <div class="search-form">
@@ -162,7 +162,7 @@
                         Search</button>
                 </form>
             </div>
-            <div class="search-form">
+            <div class="search-form form-group mb-5">
                 <form action="/search_by_keyword" method="POST">
                     <label>Search by Title Keyword</label>
                     <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
@@ -174,16 +174,17 @@
     </div>
 
     <div class="container">
-        <h1>Save a note</h1>
-        <form action="{{ url_for('save_note') }}" method="POST">
-            <label for="content">Note content:</label>
-            <input type="text" name="content" id="content" required>
-            <br>
-            <input type="submit" value="Save Note">
-        </form>
+        <div class="search-form">
+            <form action="{{ url_for('save_note') }}" method="POST" >
+                <label>Note From Product Manager</label>
+                <textarea name="content" id="content" rows="1" cols="60" style="resize: both;" class="form-control"></textarea>
+                <button type="submit" class="btn btn-primary">Save Note</button>
+            </form>
+        </div>
+
         <hr style="border-color: white;">
-        <hr style="border-color: white;">
-        <table border="1">
+        <hr style="border-color: white;"class = "form-group mb-2">
+        <table border="1" style="margin: auto;">
             <thead>
                 <tr>
                     <th>ID</th>

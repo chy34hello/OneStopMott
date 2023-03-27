@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -29,7 +30,8 @@
             border-collapse: collapse;
         }
 
-        th, td {
+        th,
+        td {
             border: 1px solid #fff;
             padding: 8px;
             text-align: left;
@@ -47,6 +49,7 @@
         .btn-primary:hover {
             background-color: #E69500;
         }
+
         .spinner-container {
             display: none;
             position: fixed;
@@ -75,6 +78,7 @@
             0% {
                 transform: translate(-50%, -50%) rotate(0deg);
             }
+
             100% {
                 transform: translate(-50%, -50%) rotate(360deg);
             }
@@ -124,6 +128,7 @@
     </script>
 
 </head>
+
 <body>
     <div class="spinner-container">
         <div class="spinner"></div>
@@ -140,38 +145,43 @@
             </thead>
             <tbody>
                 {% for file in files %}
-                    <tr>
-                        <td>{{ file }}</td>
-                        <td>
-                            <a href="{{ url_for('download_file', filename=file) }}" class="btn btn-primary btn-sm">Download</a>
-                            <a href="{{ url_for('generate_test_data', filename=file) }}" class="btn btn-primary btn-sm">Generate Top 200 Test</a>
-                            <a href="{{ url_for('generate_delta', filename=file) }}" class="btn btn-primary btn-sm"> Generate Top Delta test</a>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>{{ file }}</td>
+                    <td>
+                        <a href="{{ url_for('download_file', filename=file) }}"
+                            class="btn btn-primary btn-sm">Download</a>
+                        <a href="{{ url_for('generate_test_data', filename=file) }}"
+                            class="btn btn-primary btn-sm">Generate Top 200 Test</a>
+                        <a href="{{ url_for('generate_delta', filename=file) }}" class="btn btn-primary btn-sm">
+                            Generate Top Delta test</a>
+                    </td>
+                </tr>
                 {% endfor %}
             </tbody>
         </table>
-      
+
     </div>
 
     <div class="container">
-         <form onsubmit="downloadCatalog(event)">
+        <form onsubmit="downloadCatalog(event)">
             <label for="country_code">Country Code:</label>
             <input type="text" id="country_code" name="country_code" placeholder="Enter country code" required>
             <input type="text" id="language" name="language" placeholder="Enter language" required>
             <button type="submit">Download Netflix Catalog</button>
         </form>
     </div>
-
-    <form method="POST" action="{{ url_for('download_netflix_top_titles') }}">
-        <label for="country_code_top_titles">Country Code:</label>
-        <input type="text" id="country_code_top_titles" name="country_code" placeholder="Please type in country code" required>
-        <button type="submit">Download Netflix Exclusive Top Titles</button>
-    </form>
-    
+    <div class="container">
+        <form method="POST" action="{{ url_for('download_netflix_top_titles') }}">
+            <label for="country_code_top_titles">Country Code:</label>
+            <input type="text" id="country_code_top_titles" name="country_code"
+                placeholder="Please type in country code" required>
+            <button type="submit">Download Netflix Exclusive Top Titles</button>
+        </form>
+    </div>
 
     <div class="container">
         <a href="/" class="btn btn-primary" style="margin-top: 20px;">Go Back</a>
     </div>
 </body>
+
 </html>

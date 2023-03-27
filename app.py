@@ -1,5 +1,5 @@
 import math
-import requests  # Move this line up here, along with the other imports
+import requests  
 import os
 import sys
 from flask import Flask, render_template, send_from_directory, request, redirect, url_for, make_response, session
@@ -12,8 +12,6 @@ from flask import jsonify
 
 app = Flask(__name__)
 app.secret_key = 'MottInProgress'
-
-# Configure MySQL connection
 app.config['MYSQL_DATABASE_HOST'] = 'localhost'
 app.config['MYSQL_DATABASE_USER'] = 'root'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Rugby1234$'
@@ -27,13 +25,10 @@ mysql.init_app(app)
 def index():
     conn = mysql.connect()
     cur = conn.cursor()
-    
     cur.execute("SELECT DISTINCT date FROM testHistory")
     dates = [record[0] for record in cur.fetchall()]
-
     cur.execute("SELECT * FROM notes")
     notes = cur.fetchall()
-
     cur.close()
     return render_template('index.html', dates=dates, notes=notes)
 
