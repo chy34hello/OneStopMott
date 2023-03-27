@@ -1,7 +1,9 @@
-<head>
-    <!-- ... other tags ... -->
+
+
+{% block head %}
     <link rel="stylesheet" href="{{ url_for('static', filename='css/turbo_fix_history.css') }}">
-</head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+{% endblock %}
 
 {% block content %}
     <h1>TurboFixHistory</h1>
@@ -26,9 +28,13 @@
             {% endfor %}
         </tbody>
     </table>
-    <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+    <button onclick="location.href='/'" class="home-button">Home</button>
+
+ 
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
     <script>
         $(document).ready(function() {
             $('.editable').on('blur', function() {
