@@ -21,6 +21,8 @@ mysql = MySQL()
 mysql.init_app(app)
 
 
+
+
 @app.route('/')
 def index():
     conn = mysql.connect()
@@ -32,6 +34,39 @@ def index():
     cur.close()
     return render_template('index.html', dates=dates, notes=notes)
 
+# Add this new route to your app.py file
+@app.route('/turbo-fix-history')
+def turbo_fix_history():
+    turbo_fix_history = get_turbo_fix_history()
+    return render_template('turbo-fix-history.html', turbo_fix_history=turbo_fix_history)
+
+
+# Add this new route to update the TurboFixHistory table
+@app.route('/update', methods=['POST'])
+def update():
+    try:
+        id = request.form.get('id')
+        column = int(request.form.get('column'))
+        value = request.form.get('value')
+
+        columns = ["ID", "titleName", "utterance", "FixedByTurbo", "DateOfFix", "PMComments"]
+
+        if 0 < column < len(columns):
+            column_name = columns[column - 1]
+        else:
+            raise ValueError("Invalid column index")
+
+        conn = mysql.connect()
+        cur = conn.cursor()
+        query = f"UPDATE TurboFixHistory SET {column_name} = %s WHERE ID = %s"
+        cur.execute(query, (value, id))
+        conn.commit()
+        cur.close()
+
+        return jsonify({"status": "success"})
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return jsonify({"status": "error"})
 
 @app.route('/search_by_date', methods=['POST', 'GET'])
 def search_by_date():
@@ -247,6 +282,13 @@ def delete_note(note_id):
     cur.close()
 
     return redirect(url_for('index'))
+
+def get_turbo_fix_history():
+    conn = mysql.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT * FROM TurboFixHistory")
+    results = cur.fetchall()
+    return results
 
 
 if __name__ == '__main__':

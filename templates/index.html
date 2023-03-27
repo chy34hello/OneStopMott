@@ -209,9 +209,12 @@
                         {% else %}
                         <button type="button" class="btn btn-primary" disabled>Read</button>
                         {% endif %}
+
                         <form action="{{ url_for('delete_note', note_id=note[0]) }}" method="POST" style="display:inline;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
+                        <a href="https://sim.amazon.com/issues/create" target="_blank" class="btn btn-link p-0">AddSim</a>
+                    </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -231,6 +234,7 @@
                         <button type="submit" class="btn btn-link p-0">Source File Center</button>
                     </form>
                 </span>
+                <a href="{{ url_for('turbo_fix_history') }}">TurboFixHistory</a>
             </p>
         </div>
     </footer>

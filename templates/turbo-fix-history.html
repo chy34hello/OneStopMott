@@ -1,0 +1,61 @@
+<head>
+    <!-- ... other tags ... -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/turbo_fix_history.css') }}">
+</head>
+
+{% block content %}
+    <h1>TurboFixHistory</h1>
+    <table border="1" id="turbo-fix-history-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title Name</th>
+                <th>Utterance</th>
+                <th>Fixed By Turbo</th>
+                <th>Date Of Fix</th>
+                <th>PM Comments</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in turbo_fix_history %}
+                <tr>
+                    {% for value in row %}
+                        <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="{{ loop.index }}">{{ value }}</td>
+                    {% endfor %}
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{{ url_for('index') }}" class="home-button">Home</a>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.editable').on('blur', function() {
+                let id = $(this).data('id');
+                let column = $(this).data('column');
+                let value = $(this).text().trim();
+
+                $.ajax({
+                    url: '/update',
+                    method: 'POST',
+                    data: {
+                        id: id,
+                        column: column,
+                        value: value
+                    },
+                    success: function(response) {
+                        if (response.status === 'success') {
+                            console.log('Update successful');
+                        } else {
+                            console.error('Update failed');
+                        }
+                    },
+                    error: function() {
+                        console.error('Update failed');
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock %}
