@@ -46,15 +46,15 @@ def turbo_fix_history():
 def update():
     try:
         id = request.form.get('id')
-        column = int(request.form.get('column'))
+        column = request.form.get('column')
         value = request.form.get('value')
 
         columns = ["ID", "titleName", "utterance", "FixedByTurbo", "DateOfFix", "PMComments"]
 
-        if 0 < column < len(columns):
-            column_name = columns[column - 1]
+        if column in columns:
+            column_name = column
         else:
-            raise ValueError("Invalid column index")
+            raise ValueError("Invalid column name")
 
         conn = mysql.connect()
         cur = conn.cursor()
@@ -283,12 +283,30 @@ def delete_note(note_id):
 
     return redirect(url_for('index'))
 
+@app.route("/add-new-row", methods=["POST"])
+def add_new_row():
+    try:
+        conn = mysql.connect()
+        cur = conn.cursor()
+
+        # Insert a new row with empty values for all columns except ID
+        query = "INSERT INTO TurboFixHistory (titleName, utterance, FixedByTurbo, DateOfFix, PMComments) VALUES ('', '', '', NULL, '')"
+        cur.execute(query)
+        conn.commit()
+        cur.close()
+
+        return jsonify({"status": "success"})
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return jsonify({"status": "error"})
+
 def get_turbo_fix_history():
     conn = mysql.connect()
     cur = conn.cursor()
     cur.execute("SELECT * FROM TurboFixHistory")
     results = cur.fetchall()
     return results
+
 
 
 if __name__ == '__main__':

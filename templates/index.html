@@ -118,22 +118,48 @@
             border: 1px solid #dee2e6;
             padding: 10px;
         }
+
+        .blink-link {
+            color: #2196f3;
+            /* blue color */
+            animation: blink 2s ease-in-out infinite;
+        }
+
+        @keyframes blink {
+            0% {
+                color: #2196f3;
+                text-shadow: none;
+            }
+
+            50% {
+                color: #ffeb3b;
+                /* yellow color */
+                text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b, 0 0 30px #ffeb3b, 0 0 40px #ffeb3b, 0 0 50px #ffeb3b, 0 0 60px #ffeb3b, 0 0 70px #ffeb3b;
+                /* color chasing effect */
+            }
+
+            100% {
+                color: #2196f3;
+                text-shadow: none;
+            }
+        }
     </style>
 </head>
 
 <body>
     <div class="container">
-        <h1>FireTV Video Automation OneStop</h1>
+        <h1 class ="blink-link">WALL-E</h1>
         <div>
-            <label for="region-select">Select Region:</label>
-            <select name="region" id="region-select">
+            <label for="region-select" class ="blink-link">Select Region:</label>
+            <select name="region" id="region-select" >
+                <option value="Japan">Japan</option>
                 <option value="ANZ">ANZ</option>
                 <option value="India">India</option>
                 <option value="Arab">Arab</option>
             </select>
         </div>
         <hr style="border-color: white;">
-        <hr style="border-color: white;" class = "form-group mb-5">
+        <hr style="border-color: white;" class="form-group mb-5">
 
         <div class="search-forms">
             <div class="search-form">
@@ -175,15 +201,16 @@
 
     <div class="container">
         <div class="search-form">
-            <form action="{{ url_for('save_note') }}" method="POST" >
-                <label>Note From Product Manager</label>
-                <textarea name="content" id="content" rows="1" cols="60" style="resize: both;" class="form-control"></textarea>
+            <form action="{{ url_for('save_note') }}" method="POST">
+                <label class = "blink-link">Note From Product Manager</label>
+                <textarea name="content" id="content" rows="1" cols="60" style="resize: both;"
+                    class="form-control"></textarea>
                 <button type="submit" class="btn btn-primary">Save Note</button>
             </form>
         </div>
 
         <hr style="border-color: white;">
-        <hr style="border-color: white;"class = "form-group mb-2">
+        <hr style="border-color: white;" class="form-group mb-2">
         <table border="1" style="margin: auto;">
             <thead>
                 <tr>
@@ -203,18 +230,21 @@
                     <td>{{ note[3] }}</td>
                     <td>
                         {% if note[3] == 'unread' %}
-                        <form action="{{ url_for('mark_as_read', note_id=note[0]) }}" method="POST" style="display:inline;">
+                        <form action="{{ url_for('mark_as_read', note_id=note[0]) }}" method="POST"
+                            style="display:inline;">
                             <button type="submit" class="btn btn-primary">Read</button>
                         </form>
                         {% else %}
                         <button type="button" class="btn btn-primary" disabled>Read</button>
                         {% endif %}
 
-                        <form action="{{ url_for('delete_note', note_id=note[0]) }}" method="POST" style="display:inline;">
+                        <form action="{{ url_for('delete_note', note_id=note[0]) }}" method="POST"
+                            style="display:inline;">
                             <button type="submit" class="btn btn-danger">Delete</button>
                         </form>
-                        <a href="https://sim.amazon.com/issues/create" target="_blank" class="btn btn-link p-0">AddSim</a>
-                    </a>
+                        <a href="https://issues.amazon.com/issues/create?template=cf81996b-8831-4732-81b6-4328ca2fc4a0" target="_blank"
+                            class="btn btn-link p-0">AddSim</a>
+                        </a>
                     </td>
                 </tr>
                 {% endfor %}
@@ -229,12 +259,14 @@
             <p>
                 <a href="https://code.amazon.com/packages/AiqMottMatrix/trees/mainline">MOTT repository</a>
                 <a href="https://code.amazon.com/packages/AiqMottUtils/trees/mainline">MOTT utility repository</a>
+                <a class="blink-link" href="{{ url_for('turbo_fix_history') }}">TurboFixHistory</a>
+
                 <span class="source-file-center">
                     <form action="/source_file_center" method="GET" style="display: inline;">
-                        <button type="submit" class="btn btn-link p-0">Source File Center</button>
+                        <button type="submit" class="btn btn-link p-0 blink-link">Source File Center</button>
                     </form>
                 </span>
-                <a href="{{ url_for('turbo_fix_history') }}">TurboFixHistory</a>
+
             </p>
         </div>
     </footer>

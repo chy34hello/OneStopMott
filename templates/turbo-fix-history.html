@@ -1,67 +1,114 @@
-
-
 {% block head %}
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/turbo_fix_history.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/turbo_fix_history.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
 {% endblock %}
 
 {% block content %}
-    <h1>TurboFixHistory</h1>
-    <table border="1" id="turbo-fix-history-table">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Title Name</th>
-                <th>Utterance</th>
-                <th>Fixed By Turbo</th>
-                <th>Date Of Fix</th>
-                <th>PM Comments</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for row in turbo_fix_history %}
-                <tr>
-                    {% for value in row %}
-                        <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="{{ loop.index }}">{{ value }}</td>
-                    {% endfor %}
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+<h1>TurboFixHistory</h1>
+<div><button onclick="location.href='/'" class="home-button">Home</button></div>
+<table border="1" id="turbo-fix-history-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Title Name</th>
+            <th>Utterance</th>
+            <th>Fixed By Turbo</th>
+            <th>Date Of Fix</th>
+            <th>PM Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for row in turbo_fix_history %}
+        <tr>
+            <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="ID">{{ row[0] }}</td>
+            <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="titleName">{{ row[1] }}</td>
+            <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="utterance">{{ row[2] }}</td>
+            <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="FixedByTurbo">{{ row[3] }}
+            </td>
+            <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="DateOfFix">{{ row[4] }}</td>
+            <td class="editable" contenteditable="true" data-id="{{ row[0] }}" data-column="PMComments">{{ row[5] }}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<div>
+    <button id="add-new-row" class="btn btn-primary">Add New</button>
+</div>
 
-    <button onclick="location.href='/'" class="home-button">Home</button>
 
- 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    <script>
-        $(document).ready(function() {
-            $('.editable').on('blur', function() {
-                let id = $(this).data('id');
-                let column = $(this).data('column');
-                let value = $(this).text().trim();
 
-                $.ajax({
-                    url: '/update',
-                    method: 'POST',
-                    data: {
-                        id: id,
-                        column: column,
-                        value: value
-                    },
-                    success: function(response) {
-                        if (response.status === 'success') {
-                            console.log('Update successful');
-                        } else {
-                            console.error('Update failed');
-                        }
-                    },
-                    error: function() {
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+<script>
+    $(document).ready(function () {
+        $('.editable').on('blur', function () {
+            let id = $(this).data('id');
+            let column = $(this).data('column');
+            let value = $(this).text().trim();
+
+            $.ajax({
+                url: '/update',
+                method: 'POST',
+                data: {
+                    id: id,
+                    column: column,
+                    value: value
+                },
+                success: function (response) {
+                    if (response.status === 'success') {
+                        console.log('Update successful');
+                    } else {
                         console.error('Update failed');
                     }
-                });
+                },
+                error: function () {
+                    console.error('Update failed');
+                }
             });
         });
-    </script>
+
+        $('#add-new-row').on('click', async function () {
+            const newRowData = await addNewRow();
+            if (newRowData) {
+                addRowToTable(newRowData);
+            }
+        });
+
+        async function addNewRow() {
+            try {
+                const response = await fetch('/add-new-row', { method: 'POST' });
+                if (response.ok) {
+                    const data = await response.json();
+                    location.reload();
+                    return data;
+                } else {
+                    console.error('Error adding new row:', response.statusText);
+                }
+            } catch (err) {
+                console.error('Error adding new row:', err);
+            }
+            return null;
+        }
+
+        function addRowToTable(rowData) {
+            const table = document.querySelector('table tbody');
+            const newRow = table.insertRow(-1);
+            newRow.setAttribute('data-row-id', rowData.ID);
+
+            const columns = ['ID', 'titleName', 'utterance', 'FixedByTurbo', 'DateOfFix', 'PMComments'];
+            columns.forEach((col, idx) => {
+                const cell = newRow.insertCell(idx);
+                cell.textContent = rowData[col] || '';
+                cell.classList.add('editable');
+                cell.setAttribute('data-column', col);
+                cell.setAttribute('data-id', rowData.ID);
+            });
+        }
+
+    });
+</script>
 {% endblock %}

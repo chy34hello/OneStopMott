@@ -1,2 +1,4 @@
 myenv/
 .DS_Store
+static/js/node_modules/
+static/js/package-lock.json
