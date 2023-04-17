@@ -1,275 +1,273 @@
-<!DOCTYPE html>
-<html lang="en">
+    <!DOCTYPE html>
+    <html lang="en">
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Show Records</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <style>
-        body {
-            background-color: #232F3E;
-            font-family: Arial, sans-serif;
-            color: #fff;
-        }
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Show Records</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+        <style>
+            body {
+                background-color: #232F3E;
+                font-family: Arial, sans-serif;
+                color: #fff;
+            }
 
-        .container {
-            max-width: 800px;
-            margin: 50px auto;
-            text-align: center;
-        }
+            .container {
+                max-width: 800px;
+                margin: 50px auto;
+                text-align: center;
+            }
 
-        h1 {
-            font-size: 48px;
-            margin-bottom: 40px;
-        }
+            h1 {
+                font-size: 48px;
+                margin-bottom: 40px;
+            }
 
-        .search-forms {
-            display: flex;
-            justify-content: center;
-            align-items: flex-start;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
+            .search-forms {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
 
-        .search-form {
-            flex: 1;
-            min-width: 250px;
-            padding: 15px;
-            background-color: #2E3D55;
-            border-radius: 10px;
-            box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
-        }
+            .search-form {
+                flex: 1;
+                min-width: 250px;
+                padding: 15px;
+                background-color: #2E3D55;
+                border-radius: 10px;
+                box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.2);
+            }
 
-        .search-form label {
-            display: block;
-            font-size: 18px;
-            margin-bottom: 10px;
-        }
+            .search-form label {
+                display: block;
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
 
-        .search-form input,
-        .search-form select {
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border-radius: 4px;
-            border: 1px solid #aaa;
-            background-color: #fff;
-            color: #333;
-        }
+            .search-form input,
+            .search-form select {
+                width: 100%;
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 4px;
+                border: 1px solid #aaa;
+                background-color: #fff;
+                color: #333;
+            }
 
-        .search-form button {
-            display: block;
-            width: 100%;
-            padding: 10px;
-            font-size: 18px;
-            border-radius: 4px;
-            border: none;
-            background-color: #F9A41A;
-            color: #232F3E;
-            margin-top: 10px;
-            cursor: pointer;
-        }
+            .search-form button {
+                display: block;
+                width: 100%;
+                padding: 10px;
+                font-size: 18px;
+                border-radius: 4px;
+                border: none;
+                background-color: #F9A41A;
+                color: #232F3E;
+                margin-top: 10px;
+                cursor: pointer;
+            }
 
-        .search-form button:hover {
-            background-color: #E69500;
-        }
+            .search-form button:hover {
+                background-color: #E69500;
+            }
 
-        .footer {
-            background-color: var(--header-bg-color);
-            padding: 20px 0;
-            position: relative;
-            bottom: 0;
-            width: 100%;
-        }
+            .footer {
+                background-color: var(--header-bg-color);
+                padding: 20px 0;
+                position: relative;
+                bottom: 0;
+                width: 100%;
+            }
 
-        .footer a {
-            color: var(--header-text-color);
-            text-decoration: none;
-            margin-right: 15px;
-        }
+            .footer a {
+                color: var(--header-text-color);
+                text-decoration: none;
+                margin-right: 15px;
+            }
 
-        .footer a:hover {
-            text-decoration: underline;
-        }
+            .footer a:hover {
+                text-decoration: underline;
+            }
 
-        .footer p {
-            color: var(--header-text-color);
-        }
+            .footer p {
+                color: var(--header-text-color);
+            }
 
-        .source-file-center-container {
-            padding: 30px 0;
-            border-top: 2px solid #ccc;
-            border-bottom: 2px solid #ccc;
-            margin: 30px 0;
-        }
+            .source-file-center-container {
+                padding: 30px 0;
+                border-top: 2px solid #ccc;
+                border-bottom: 2px solid #ccc;
+                margin: 30px 0;
+            }
 
-        .source-file-center {
-            font-size: 14px;
-            margin-left: 20px;
-        }
+            .source-file-center {
+                font-size: 14px;
+                margin-left: 20px;
+            }
 
-        .table-bordered {
-            border-collapse: collapse;
-        }
+            .table-bordered {
+                border-collapse: collapse;
+            }
 
-        .table-bordered th,
-        .table-bordered td {
-            border: 1px solid #dee2e6;
-            padding: 10px;
-        }
+            .table-bordered th,
+            .table-bordered td {
+                border: 1px solid #dee2e6;
+                padding: 10px;
+            }
 
-        .blink-link {
-            color: #2196f3;
-            /* blue color */
-            animation: blink 2s ease-in-out infinite;
-        }
-
-        @keyframes blink {
-            0% {
+            .blink-link {
                 color: #2196f3;
-                text-shadow: none;
+                /* blue color */
+                animation: blink 2s ease-in-out infinite;
             }
 
-            50% {
-                color: #ffeb3b;
-                /* yellow color */
-                text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b, 0 0 30px #ffeb3b, 0 0 40px #ffeb3b, 0 0 50px #ffeb3b, 0 0 60px #ffeb3b, 0 0 70px #ffeb3b;
-                /* color chasing effect */
+            @keyframes blink {
+                0% {
+                    color: #2196f3;
+                    text-shadow: none;
+                }
+
+                50% {
+                    color: #ffeb3b;
+                    /* yellow color */
+                    text-shadow: 0 0 10px #ffeb3b, 0 0 20px #ffeb3b, 0 0 30px #ffeb3b, 0 0 40px #ffeb3b, 0 0 50px #ffeb3b, 0 0 60px #ffeb3b, 0 0 70px #ffeb3b;
+                    /* color chasing effect */
+                }
+
+                100% {
+                    color: #2196f3;
+                    text-shadow: none;
+                }
             }
+        </style>
+    </head>
 
-            100% {
-                color: #2196f3;
-                text-shadow: none;
-            }
-        }
-    </style>
-</head>
-
-<body>
-    <div class="container">
-        <h1 class ="blink-link">WALL-E</h1>
-        <div>
-            <label for="region-select" class ="blink-link">Select Region:</label>
-            <select name="region" id="region-select" >
-                <option value="Japan">Japan</option>
-                <option value="ANZ">ANZ</option>
-                <option value="India">India</option>
-                <option value="Arab">Arab</option>
-            </select>
-        </div>
-        <hr style="border-color: white;">
-        <hr style="border-color: white;" class="form-group mb-5">
-
-        <div class="search-forms">
-            <div class="search-form">
-                <form action="/search" method="POST">
-                    <label>Show All Records</label>
-                    <button type="submit">Show All Test Results</button>
-                </form>
-            </div>
-            <div class="search-form">
-                <form action="/search_by_date" method="POST">
-                    <div style="display: flex; flex-direction: column;">
-                        <label for="date">Search by Date</label>
-                        <select name="date" id="date">
-                            {% for date in dates %}
-                            <option value="{{ date }}">{{ date }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                    <div style="display: flex; align-items: center; margin-top: 10px;">
-                        <label style="font-size: 14px; margin-right: 5px;">
-                            <input type="checkbox" id="failed_test_cases" name="failed_test_cases" value="1">
-                            Failed Test Cases
-                        </label>
-                    </div>
-                    <button type="submit" style="margin-top: 10px;">
-                        Search</button>
-                </form>
-            </div>
-            <div class="search-form form-group mb-5">
-                <form action="/search_by_keyword" method="POST">
-                    <label>Search by Title Keyword</label>
-                    <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
-                    <button type="submit">Search</button>
-                </form>
-            </div>
-
-        </div>
-    </div>
-
-    <div class="container">
-        <div class="search-form">
-            <form action="{{ url_for('save_note') }}" method="POST">
-                <label class = "blink-link">Note From Product Manager</label>
-                <textarea name="content" id="content" rows="1" cols="60" style="resize: both;"
-                    class="form-control"></textarea>
-                <button type="submit" class="btn btn-primary">Save Note</button>
-            </form>
-        </div>
-
-        <hr style="border-color: white;">
-        <hr style="border-color: white;" class="form-group mb-2">
-        <table border="1" style="margin: auto;">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Timestamp</th>
-                    <th>Content</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for note in notes %}
-                <tr>
-                    <td>{{ note[0] }}</td>
-                    <td>{{ note[1] }}</td>
-                    <td>{{ note[2] }}</td>
-                    <td>{{ note[3] }}</td>
-                    <td>
-                        {% if note[3] == 'unread' %}
-                        <form action="{{ url_for('mark_as_read', note_id=note[0]) }}" method="POST"
-                            style="display:inline;">
-                            <button type="submit" class="btn btn-primary">Read</button>
-                        </form>
-                        {% else %}
-                        <button type="button" class="btn btn-primary" disabled>Read</button>
-                        {% endif %}
-
-                        <form action="{{ url_for('delete_note', note_id=note[0]) }}" method="POST"
-                            style="display:inline;">
-                            <button type="submit" class="btn btn-danger">Delete</button>
-                        </form>
-                        <a href="https://issues.amazon.com/issues/create?template=cf81996b-8831-4732-81b6-4328ca2fc4a0" target="_blank"
-                            class="btn btn-link p-0">AddSim</a>
-                        </a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
-
-
-    <hr style="border-color: white;">
-    <footer class="footer">
+    <body>
         <div class="container">
-            <p>
-                <a href="https://code.amazon.com/packages/AiqMottMatrix/trees/mainline">MOTT repository</a>
-                <a href="https://code.amazon.com/packages/AiqMottUtils/trees/mainline">MOTT utility repository</a>
-                <a class="blink-link" href="{{ url_for('turbo_fix_history') }}">TurboFixHistory</a>
+            <h1 class ="blink-link">WALL-E</h1>
+            <div>
+                <div class="region-buttons">
+                    <a href="index.html" class="btn btn-primary">ANZ</a>
+                    <a href="index_JP.html" class="btn btn-primary">日本</a>
+                </div>
+                
+            </div>
+            <hr style="border-color: white;">
+            <hr style="border-color: white;" class="form-group mb-5">
 
-                <span class="source-file-center">
-                    <form action="/source_file_center" method="GET" style="display: inline;">
-                        <button type="submit" class="btn btn-link p-0 blink-link">Source File Center</button>
+            <div class="search-forms">
+                <div class="search-form">
+                    <form action="/search" method="POST">
+                        <label>Show All Records</label>
+                        <button type="submit">Show All Test Results</button>
                     </form>
-                </span>
+                </div>
+                <div class="search-form">
+                    <form action="/search_by_date" method="POST">
+                        <div style="display: flex; flex-direction: column;">
+                            <label for="date">Search by Date</label>
+                            <select name="date" id="date">
+                                {% for date in dates %}
+                                <option value="{{ date }}">{{ date }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div style="display: flex; align-items: center; margin-top: 10px;">
+                            <label style="font-size: 14px; margin-right: 5px;">
+                                <input type="checkbox" id="failed_test_cases" name="failed_test_cases" value="1">
+                                Failed Test Cases
+                            </label>
+                        </div>
+                        <button type="submit" style="margin-top: 10px;">
+                            Search</button>
+                    </form>
+                </div>
+                <div class="search-form form-group mb-5">
+                    <form action="/search_by_keyword" method="POST">
+                        <label>Search by Title Keyword</label>
+                        <input type="text" id="keyword" name="keyword" placeholder="Enter keyword">
+                        <button type="submit">Search</button>
+                    </form>
+                </div>
 
-            </p>
+            </div>
         </div>
-    </footer>
-</body>
 
-</html>
+        <div class="container">
+            <div class="search-form">
+                <form action="{{ url_for('save_note') }}" method="POST">
+                    <label class = "blink-link">Note From Product Manager</label>
+                    <textarea name="content" id="content" rows="1" cols="60" style="resize: both;"
+                        class="form-control"></textarea>
+                    <button type="submit" class="btn btn-primary">Save Note</button>
+                </form>
+            </div>
+
+            <hr style="border-color: white;">
+            <hr style="border-color: white;" class="form-group mb-2">
+            <table border="1" style="margin: auto;">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Timestamp</th>
+                        <th>Content</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for note in notes %}
+                    <tr>
+                        <td>{{ note[0] }}</td>
+                        <td>{{ note[1] }}</td>
+                        <td>{{ note[2] }}</td>
+                        <td>{{ note[3] }}</td>
+                        <td>
+                            {% if note[3] == 'unread' %}
+                            <form action="{{ url_for('mark_as_read', note_id=note[0]) }}" method="POST"
+                                style="display:inline;">
+                                <button type="submit" class="btn btn-primary">Read</button>
+                            </form>
+                            {% else %}
+                            <button type="button" class="btn btn-primary" disabled>Read</button>
+                            {% endif %}
+
+                            <form action="{{ url_for('delete_note', note_id=note[0]) }}" method="POST"
+                                style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                            <a href="https://issues.amazon.com/issues/create?template=cf81996b-8831-4732-81b6-4328ca2fc4a0" target="_blank"
+                                class="btn btn-link p-0">AddSim</a>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+
+        <hr style="border-color: white;">
+        <footer class="footer">
+            <div class="container">
+                <p>
+                    <a href="https://code.amazon.com/packages/AiqMottMatrix/trees/mainline">MOTT repository</a>
+                    <a href="https://code.amazon.com/packages/AiqMottUtils/trees/mainline">MOTT utility repository</a>
+                    <a class="blink-link" href="{{ url_for('turbo_fix_history') }}">TurboFixHistory</a>
+
+                    <span class="source-file-center">
+                        <form action="/source_file_center" method="GET" style="display: inline;">
+                            <button type="submit" class="btn btn-link p-0 blink-link">Source File Center</button>
+                        </form>
+                    </span>
+
+                </p>
+            </div>
+        </footer>
+    </body>
+
+    </html>

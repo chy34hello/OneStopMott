@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en" data-theme = "dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha512-QyN5+5Ko4Pv4x4lm/57Z38KFFTD/lu6fHUS8hJlDmEnCmRlHkUvJ8Wn3qKZ/f6UdK9+oN59DvMc1Ymm3gJ3Mw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+ :root {
+  --main-bg-color: #f8f9fa;
+  --main-text-color: #212529;
+  --header-bg-color: #232f3e;
+  --header-text-color: #fff;
+  --table-row-hover-bg-color: #f2f2f2;
+  --table-row-even-bg-color: #fff;
+  --table-row-odd-bg-color: #f8f9fa;
+  --table-row-text-color: #333333;
+}
+
+[data-theme="dark"] {
+  --main-bg-color: #232f3e;
+  --main-text-color: #fff;
+  --header-bg-color: #303030;
+  --header-text-color: #f8f9fa;
+  --table-row-hover-bg-color: #3c3c3c;
+  --table-row-even-bg-color: #3c3c3c;
+  --table-row-odd-bg-color: #232f3e;
+  --table-row-text-color: #ffffff;
+}
+
+[data-theme="dark"] #theme-switcher i {
+  transform: rotate(180deg);
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+  background-color: var(--main-bg-color);
+  color: var(--main-text-color);
+}
+
+@keyframes colorChase {
+    0% {
+      color: #f00;
+    }
+    25% {
+      color: #0f0;
+    }
+    50% {
+      color: #00f;
+    }
+    75% {
+      color: #f0f;
+    }
+    100% {
+      color: #f00;
+    }
+  }
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 50px 15px;
+}
+
+h1 {
+  font-weight: 400;
+  margin-bottom: 20px;
+  font-size: 30px;
+}
+
+a.home-link {
+  float: right;
+  margin-top: -40px;
+  margin-right: 15px;
+  text-decoration: none;
+  color: #007185;
+}
+
+a.home-link:hover {
+  text-decoration: underline;
+}
+
+table {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-collapse: separate;
+  border-spacing: 0;
+  width: 100%;
+}
+
+thead {
+  background-color: #232f3e;
+  color: #fff;
+}
+
+th,
+td {
+  padding: 10px;
+  text-align: left;
+  border-top: 1px solid #dee2e6;
+  font-size: 15px;
+}
+
+.theme-switcher {
+    position: absolute;
+    top: 50px;
+    right: 15px;
+    background: none;
+    border: none;
+    color: inherit;
+    font-family: inherit;
+    font-size: 16px;
+    cursor: pointer;
+    animation: colorChase 4s infinite;
+  }
+
+tbody tr:nth-child(even) {
+    background-color: var(--main-bg-color);
+}
+
+tbody tr:nth-child(odd) {
+  background-color: var(--table-row-odd-bg-color);
+}
+
+tbody tr:hover {
+    background-color: var(--table-row-hover-bg-color);
+
+}
+
+tbody tr td {
+  color: var(--table-row-text-color);
+}
+
+.pagination {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 15px;
+  padding-top: 20px;
+}
+
+.pagination a,
+.pagination span {
+  margin-right: 10px;
+  text-decoration: none;
+  color: #007185;
+  font-size: 15px;
+}
+
+.pagination a:hover {
+  text-decoration: underline;
+}
+
+.page-item.disabled .page-link {
+  color: #6c757d;
+}
+
+.home-link {
+  animation: blink 1s infinite;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+    </style>
+    <script>
+        function setTheme(theme) {
+            document.documentElement.setAttribute('data-theme', theme);
+        }
+
+        function toggleTheme() {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        }
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const storedTheme = localStorage.getItem('theme');
+            if (storedTheme) {
+                setTheme(storedTheme);
+            } else {
+                setTheme('dark');
+            }
+
+            const themeSwitcher = document.getElementById('theme-switcher');
+            themeSwitcher.addEventListener('click', toggleTheme);
+        });
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1> Test results</h1>
+            <button id="theme-switcher" class="theme-switcher"><i class="fas fa-moon"></i> Toggle theme</button>
+        </div>
+  
+        <a href="/index_JP.html" class="home-link">Go Home Page</a>
+        <div class="pagination">
+            <span>Records per page:</span>
+            {% for option in [10, 50, 100] %}
+                {% if option == per_page %}
+                    <a href="?page=1&per_page={{ option }}" style="text-decoration: underline;">{{ option }}</a>
+                {% else %}
+                    <a href="?page=1&per_page={{ option }}">{{ option }}</a>
+                {% endif %}
+            {% endfor %}
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Video Title</th>
+                    <th>Utterance</th>
+                    <th>Results</th>
+                    <th>Testing Note</th>
+                    <th>Data</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result[0] }}</td>
+                        <td>{{ result[1] }}</td>
+                        <td>{{ result[2] }}</td>
+                        <td>{{ result[3] }}</td>
+                        <td>{{ result[4] }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination">
+                <li class="page-item {% if current_page == 1 %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ current_page - 1 }}&per_page={{ per_page }}" {% if current_page == 1 %}tabindex="-1" aria-disabled="true"{% endif %}>Previous</a>
+                </li>
+                {% set max_page_links = 3 %}
+                {% for p in range(1, total_pages + 1) %}
+                    {% if p <= max_page_links or (p > current_page - max_page_links and p < current_page + max_page_links) or p > total_pages - max_page_links %}
+                        {% if p == current_page %}
+                            <li class="page-item active">
+                                <span class="page-link">{{ p }}</span>
+                            </li>
+                        {% else %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ p }}&per_page={{ per_page }}">{{ p }}</a>
+                            </li>
+                        {% endif %}
+                    {% elif p == max_page_links + 1 or p == total_pages - max_page_links %}
+                        <li class="page-item disabled">
+                            <span class="page-link">...</span>
+                        </li>
+                    {% endif %}
+                {% endfor %}
+                <li class="page-item {% if current_page == total_pages %}disabled{% endif %}">
+                    <a class="page-link" href="?page={{ current_page + 1 }}&per_page={{ per_page }}" {% if current_page == total_pages %}tabindex="-1" aria-disabled="true"{% endif %}>Next</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+
+    
+</body>
+</html>

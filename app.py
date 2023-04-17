@@ -24,6 +24,7 @@ mysql.init_app(app)
 
 
 @app.route('/')
+@app.route('/index.html')
 def index():
     conn = mysql.connect()
     cur = conn.cursor()
@@ -33,6 +34,17 @@ def index():
     notes = cur.fetchall()
     cur.close()
     return render_template('index.html', dates=dates, notes=notes)
+
+@app.route('/index_JP.html')
+def index_JP():
+    conn = mysql.connect()
+    cur = conn.cursor()
+    cur.execute("SELECT DISTINCT date FROM testHistory_JPN")
+    dates = [record[0] for record in cur.fetchall()]
+    cur.execute("SELECT * FROM notes")
+    notes = cur.fetchall()
+    cur.close()
+    return render_template('index_JP.html', dates=dates, notes=notes)
 
 # Add this new route to your app.py file
 @app.route('/turbo-fix-history')
@@ -103,6 +115,68 @@ def search_by_date():
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         return f"An error occurred: {e}", 500
+    
+
+
+#JP version
+@app.route('/search_by_date_JPN', methods=['POST', 'GET'])
+def search_by_date_JP():
+    try:
+        if request.method == 'POST':
+            selected_date = request.form['date']
+            failed_test_cases = request.form.get('failed_test_cases') == '1'
+            session['selected_date'] = selected_date
+            session['failed_test_cases'] = failed_test_cases
+        else:
+            selected_date = session.get('selected_date', None)
+            failed_test_cases = session.get('failed_test_cases', False)
+
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        offset = (page - 1) * per_page
+        conn = mysql.connect()
+        cur = conn.cursor()
+        if failed_test_cases:
+            query = "SELECT videoTitle, utterance, result, testingNote, date FROM testHistory_JPN WHERE date = %s AND LOWER(result) = 'fail'"
+        else:
+            query = "SELECT videoTitle, utterance, result, testingNote, date FROM testHistory_JPN WHERE date = %s"
+        cur.execute(query, (selected_date,))
+        results = cur.fetchall()
+        cur.close()
+        cur = conn.cursor()
+        total_records = len(results)
+        total_pages = math.ceil(total_records / per_page)
+        query = query + " LIMIT %s OFFSET %s"
+        cur.execute(query, (selected_date, per_page, offset))
+        results = cur.fetchall()
+        cur.close()
+        return render_template('results_JPN.html', results=results, total_pages=total_pages, current_page=page, per_page=per_page)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return f"An error occurred: {e}", 500
+    
+@app.route('/search_JPN', methods=['POST', 'GET'])
+def search_JPN():
+    try:
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        offset = (page - 1) * per_page
+        conn = mysql.connect()
+        cur = conn.cursor()
+
+        cur.execute("SELECT COUNT(*) FROM testHistory_JPN")
+        total_records = cur.fetchone()[0]
+
+        query = f"SELECT videoTitle, utterance, result, testingNote, date FROM testHistory_JPN LIMIT {per_page} OFFSET {offset}"
+        cur.execute(query)
+        results = cur.fetchall()
+        cur.close()
+        total_pages = math.ceil(total_records / per_page)
+
+        return render_template('results_JPN.html', results=results, total_pages=total_pages, current_page=page, per_page=per_page)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return f"An error occurred: {e}", 500   
 
 
 @app.route('/search', methods=['POST', 'GET'])
@@ -154,6 +228,37 @@ def search_by_keyword():
         cur.close()
         total_pages = math.ceil(total_records / per_page)
         return render_template('results.html', results=results, total_pages=total_pages, current_page=page, per_page=per_page)
+    except Exception as e:
+        print(f"Error: {e}", file=sys.stderr)
+        return f"An error occurred: {e}", 500
+    
+
+
+@app.route('/search_by_keyword_JPN', methods=['POST', 'GET'])
+def search_by_keyword_JPN():
+    try:
+        if request.method == 'POST':
+            keyword = request.form['keyword']
+            session['keyword'] = keyword
+        else:
+            keyword = session.get('keyword', None)
+            if keyword is None:
+                return "No keyword provided.", 400
+
+        page = request.args.get('page', 1, type=int)
+        per_page = request.args.get('per_page', 10, type=int)
+        offset = (page - 1) * per_page
+        conn = mysql.connect()
+        cur = conn.cursor()
+        query = "SELECT COUNT(*) FROM testHistory_JPN WHERE LOWER(videoTitle) LIKE %s"
+        cur.execute(query, (f'%{keyword.lower()}%',))
+        total_records = cur.fetchone()[0]
+        query = "SELECT videoTitle, utterance, result, testingNote, date FROM testHistory_JPN WHERE LOWER(videoTitle) LIKE %s LIMIT %s OFFSET %s"
+        cur.execute(query, (f'%{keyword.lower()}%', per_page, offset))
+        results = cur.fetchall()
+        cur.close()
+        total_pages = math.ceil(total_records / per_page)
+        return render_template('results_JPN.html', results=results, total_pages=total_pages, current_page=page, per_page=per_page)
     except Exception as e:
         print(f"Error: {e}", file=sys.stderr)
         return f"An error occurred: {e}", 500
